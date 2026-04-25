@@ -4,19 +4,26 @@ google-ads.yaml
 .env
 *.env
 token*.json
+*token*.json
+env.py
 
-# Streamlit secrets locais (os do Cloud ficam no dashboard, não no repo)
+# Streamlit secrets locais
 .streamlit/secrets.toml
+
+# Arquivos de output / logs
+ads_report_output.txt
+agent_response.txt
+*.pdf
 
 # Python
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-.Python
 
-# Relatórios gerados
-*.pdf
+# Claude / MCP (ambiente de dev)
+.claude/
+.mcp.json
 
 # IDEs
 .vscode/
