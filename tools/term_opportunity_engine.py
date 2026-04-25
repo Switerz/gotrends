@@ -376,7 +376,40 @@ def generate_new_keyword_suggestions(result: pd.DataFrame, output_path: str = "n
 
     cols = ["keyword", "match_type", "suggested_ad_group", "suggested_copy_angle", "intent", "priority", "impressions_sc", "position_sc", "ctr_sc", "opportunity_score", "estimated_revenue_potential_new_kw", "reason"]
     df = df[[c for c in cols if c in df.columns]]
-    df = df.sort_values("opportunity_score", ascending=False)
+    df = df.sort_values(["opportunity_score", "impressions_sc"], ascending=False)
+
+    # Deduplica por tema: se um termo é subconjunto de palavras de outro já selecionado,
+    # agrupa como variação em vez de criar linha separada.
+    def _words(term: str) -> set:
+        return set(str(term).lower().replace("[", "").replace("]", "").split())
+
+    kept_indices: list[int] = []
+    variations_map: dict[int, list[str]] = {}
+
+    for idx, row in df.iterrows():
+        words_current = _words(row["keyword"])
+        merged = False
+        for rep_idx in kept_indices:
+            words_rep = _words(df.loc[rep_idx, "keyword"])
+            # É variação se compartilha ≥60% das palavras com o representante
+            overlap = len(words_current & words_rep) / max(len(words_current | words_rep), 1)
+            if overlap >= 0.5:
+                variations_map.setdefault(rep_idx, []).append(
+                    row["keyword"].replace("[", "").replace("]", "")
+                )
+                merged = True
+                break
+        if not merged:
+            kept_indices.append(idx)
+
+    df = df.loc[kept_indices].copy()
+    df["keyword_variations"] = df.index.map(
+        lambda i: "; ".join(variations_map[i]) if i in variations_map else ""
+    )
+    df = df.reset_index(drop=True)
+
+    cols_final = ["keyword", "keyword_variations", "match_type", "suggested_ad_group", "suggested_copy_angle", "intent", "priority", "impressions_sc", "position_sc", "ctr_sc", "opportunity_score", "estimated_revenue_potential_new_kw", "reason"]
+    df = df[[c for c in cols_final if c in df.columns]]
     df.to_csv(output_path, index=False, encoding="utf-8-sig")
     return df
 
