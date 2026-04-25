@@ -11,7 +11,7 @@ import streamlit as st
 import httpx
 from pathlib import Path
 
-ALLOWED_DOMAINS = {"gocase.com", "gobeaute.com"}
+ALLOWED_DOMAINS = {"gocase.com", "gobeaute.com", "gobeaute.com.br"}
 _CREDS_FILE = Path(__file__).parent / "client_secret_streamlit.json"
 
 
