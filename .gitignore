@@ -1,0 +1,24 @@
+# Credenciais — NUNCA subir
+client_secret*.json
+google-ads.yaml
+.env
+*.env
+token*.json
+
+# Streamlit secrets locais (os do Cloud ficam no dashboard, não no repo)
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Relatórios gerados
+*.pdf
+
+# IDEs
+.vscode/
+.idea/
+*.swp
