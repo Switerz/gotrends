@@ -158,7 +158,7 @@ def classify_constraint(row: dict) -> tuple[str, str, str]:
     )
 
 
-def fetch_campaign_constraints(date_range: str = "LAST_7_DAYS") -> pd.DataFrame:
+def fetch_campaign_constraints(date_range: str = "LAST_30_DAYS") -> pd.DataFrame:
     client, customer_id = get_google_ads_client()
     service = client.get_service("GoogleAdsService")
 

@@ -4,7 +4,7 @@ from tools.campaign_constraints_engine import run_campaign_constraints_analysis
 if __name__ == "__main__":
     df = run_campaign_constraints_analysis(
         output_path="campaign_constraints_analysis.csv",
-        date_range="LAST_7_DAYS",
+        date_range="LAST_30_DAYS",
     )
 
     print("\n=== ANÁLISE DE RESTRIÇÕES POR CAMPANHA ===")

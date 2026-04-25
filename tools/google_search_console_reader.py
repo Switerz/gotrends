@@ -67,8 +67,8 @@ def list_search_console_sites(
 
 def get_search_console_queries(
     site_url: str = DEFAULT_SITE_URL,
-    start_date: str = "2026-04-01",
-    end_date: str = "2026-04-23",
+    start_date: str | None = None,
+    end_date: str | None = None,
     row_limit: int = 25000,
     dimensions: list[str] | None = None,
     client_secret_file: str | Path = DEFAULT_CLIENT_SECRET_FILE,
@@ -83,6 +83,11 @@ def get_search_console_queries(
     - ["query", "date"]
     - ["query", "country", "device"]
     """
+    from datetime import date, timedelta
+    if end_date is None:
+        end_date = (date.today() - timedelta(days=1)).strftime("%Y-%m-%d")
+    if start_date is None:
+        start_date = (date.today() - timedelta(days=30)).strftime("%Y-%m-%d")
     if dimensions is None:
         dimensions = ["query"]
 

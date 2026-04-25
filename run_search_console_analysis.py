@@ -5,9 +5,11 @@ from tools.google_search_console_reader import (
     list_search_console_sites,
 )
 
+from datetime import date, timedelta
+
 SITE_URL = DEFAULT_SITE_URL
-START_DATE = "2026-04-01"
-END_DATE = "2026-04-23"
+END_DATE   = (date.today() - timedelta(days=1)).strftime("%Y-%m-%d")
+START_DATE = (date.today() - timedelta(days=30)).strftime("%Y-%m-%d")
 
 print("=== PROPRIEDADES DISPONÍVEIS ===")
 for site in list_search_console_sites():
