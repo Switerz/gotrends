@@ -1,0 +1,15 @@
+PROMPT_FILES = [
+    "system.md",
+    "account_context.md",
+    "business_rules.md",
+    "campaign_rules.md",
+    "intent_taxonomy.md",
+    "decision_framework.md",
+    "search_console_context.md",
+    "organic_paid_decision_framework.md",
+    "keyword_expansion_framework.md",
+    "campaign_constraints_framework.md",
+    "insight_patterns.md",
+    "action_policy.md",
+    "output_format.md",
+]

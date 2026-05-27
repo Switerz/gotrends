@@ -7,16 +7,22 @@ Uso:
 """
 import subprocess
 import sys
+import os
 from datetime import date
+
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
+ENV = {**os.environ, "PYTHONUTF8": "1"}
 
 
 def run(cmd: str, label: str) -> None:
     print(f"\n{'='*50}")
     print(f"  {label}")
     print(f"{'='*50}")
-    result = subprocess.run(cmd, shell=True)
+    result = subprocess.run(cmd, shell=True, env=ENV)
     if result.returncode != 0:
-        print(f"\n❌ Falhou: {cmd}")
+        print(f"\nFalhou: {cmd}")
         sys.exit(1)
 
 

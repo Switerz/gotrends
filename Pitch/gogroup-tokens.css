@@ -1,0 +1,250 @@
+/* ============================================================
+   Gogroup Design System — core tokens
+   Load this file as the base for any Gogroup-branded artifact.
+   Fonts: self-hosted Poppins (extracted from brandbook) with
+   Google Fonts fallback in case fonts/ isn't available.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 300;
+  font-style: normal;
+  src: url('fonts/PoppinsLight-regular.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-style: normal;
+  src: url('fonts/Poppins-regular.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 500;
+  font-style: normal;
+  src: url('fonts/PoppinsMedium-regular.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-style: normal;
+  src: url('fonts/PoppinsSemiBold-regular.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 700;
+  font-style: normal;
+  src: url('fonts/Poppins-bold.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 800;
+  font-style: normal;
+  src: url('fonts/PoppinsExtraBold-bold.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 900;
+  font-style: normal;
+  src: url('fonts/PoppinsBlack-bold.ttf') format('truetype');
+  font-display: swap;
+}
+
+:root {
+  /* ── Brand palette — the 8 official swatches ────────────── */
+  --gg-blue:        #2659a5; /* PROTAGONIST — appears in ~every layout */
+  --gg-yellow:      #d7d900; /* Secondary protagonist, pairs with blue */
+  --gg-pink:        #e61782; /* Accent */
+  --gg-red:         #e5273c; /* Accent */
+  --gg-orange:      #f8ae13; /* Accent */
+  --gg-light-blue:  #3dbfef; /* Accent */
+  --gg-red-orange:  #e5381a; /* Accent */
+  --gg-white:       #ffffff;
+
+  /* Useful extras pulled from the brandbook & templates */
+  --gg-cream:       #fbf2e7; /* off-white used on logo circles & "cream" cards */
+  --gg-black:       #000000;
+  --gg-ink:         #0d1b2e; /* rare body-text blue-black */
+
+  /* ── Tints / darkenings of the primary blue, used sparingly
+        (the system isn't shy about flat colour — reach for
+         these only for hovers or very subtle surfaces) */
+  --gg-blue-900:    #173a73;
+  --gg-blue-700:    #1e4a8a;
+  --gg-blue-500:    #2659a5; /* == --gg-blue */
+  --gg-blue-300:    #7ba1d8;
+  --gg-blue-100:    #d6e3f3;
+  --gg-blue-050:    #eaf1fa;
+
+  /* ── Semantic surfaces ─────────────────────────────────── */
+  --bg-default:     var(--gg-white);
+  --bg-protagonist: var(--gg-blue);     /* blue slab — the #1 background */
+  --bg-accent:      var(--gg-yellow);   /* yellow slab — the #2 background */
+  --bg-cream:       var(--gg-cream);
+
+  /* ── Semantic foregrounds ──────────────────────────────── */
+  --fg-default:     var(--gg-blue);     /* YES, the default body text is blue on white */
+  --fg-on-blue:     var(--gg-white);    /* white on blue */
+  --fg-on-blue-alt: var(--gg-yellow);   /* yellow type on blue — used for display titles */
+  --fg-on-yellow:   var(--gg-blue);     /* blue type on yellow */
+  --fg-muted:       rgba(38, 89, 165, 0.6);
+  --fg-inverse:     var(--gg-white);
+
+  /* ── Borders & rules ──────────────────────────────────── */
+  --border-default: var(--gg-blue);
+  --border-subtle:  rgba(38, 89, 165, 0.15);
+
+  /* ── Radii — Gogroup is "formas sempre arredondadas". Use
+        generous pill/slab radii; never square corners. ────── */
+  --radius-xs:   8px;
+  --radius-sm:   14px;
+  --radius-md:   22px;   /* cards, chips */
+  --radius-lg:   36px;   /* hero slabs */
+  --radius-xl:   60px;   /* big image cards */
+  --radius-pill: 999px;  /* buttons, tags, badges */
+
+  /* ── Spacing — 4-pt scale ─────────────────────────────── */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 128px;
+
+  /* ── No shadows (brandbook: "evitar efeitos — drop shadow…")
+        We expose these only for overlays that absolutely
+        need separation (modals, toast). Otherwise: flat. ─── */
+  --shadow-none:   none;
+  --shadow-modal:  0 24px 60px -12px rgba(38, 89, 165, 0.25);
+  --shadow-toast:  0 10px 30px -8px rgba(0, 0, 0, 0.18);
+
+  /* ── Type family ──────────────────────────────────────── */
+  --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* ── Type scale — slide-friendly, Poppins-tuned ───────── */
+  --fz-display:  96px;  /* huge banner titles "Logo e variações" */
+  --fz-h1:       64px;  /* section titles */
+  --fz-h2:       40px;  /* slide titles "Título aqui" */
+  --fz-h3:       28px;
+  --fz-h4:       20px;
+  --fz-body:     16px;
+  --fz-small:    13px;
+  --fz-eyebrow:  12px;  /* "SUBTÍTULO", "TERRITÓRIO VISUAL" — always UPPERCASE, tracked */
+  --fz-caption:  11px;
+
+  --lh-tight:    1.05;
+  --lh-snug:     1.2;
+  --lh-normal:   1.45;
+  --lh-relaxed:  1.6;
+
+  --tracking-eyebrow: 0.14em; /* the "eyebrow" style is extremely wide-tracked */
+  --tracking-button:  0.10em;
+}
+
+/* ── Base element styles ───────────────────────────────── */
+html, body {
+  font-family: var(--font-sans);
+  color: var(--fg-default);
+  background: var(--bg-default);
+  font-weight: 400;
+  font-size: var(--fz-body);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+.gg-display, h1.gg-display {
+  font-family: var(--font-sans);
+  font-weight: 700;                 /* the brandbook uses Poppins Bold, NOT Black, for titles */
+  font-size: var(--fz-display);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+.gg-h1, h1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--fz-h1);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+.gg-h2, h2 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--fz-h2);
+  line-height: var(--lh-snug);
+  letter-spacing: -0.005em;
+  text-wrap: pretty;
+}
+
+.gg-h3, h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fz-h3);
+  line-height: var(--lh-snug);
+}
+
+.gg-h4, h4 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fz-h4);
+  line-height: var(--lh-snug);
+}
+
+.gg-body, p {
+  font-weight: 400;
+  font-size: var(--fz-body);
+  line-height: var(--lh-relaxed);
+}
+
+.gg-body-lg {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: var(--lh-relaxed);
+}
+
+.gg-small, small {
+  font-size: var(--fz-small);
+  line-height: var(--lh-normal);
+}
+
+/* The signature "eyebrow" — wide-tracked uppercase label.
+   Used everywhere: "TERRITÓRIO VISUAL", "S U B T Í T U L O",
+   "CULTURA ORGANIZACIONAL", "CONSTRUINDO O FUTURO".
+   Note the brandbook literally spaces each letter with \\u00a0. */
+.gg-eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fz-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.gg-caption {
+  font-size: var(--fz-caption);
+  line-height: var(--lh-normal);
+}
+
+/* ── Quick theme helpers ───────────────────────────────── */
+.gg-surface-blue   { background: var(--gg-blue);    color: var(--gg-white); }
+.gg-surface-yellow { background: var(--gg-yellow);  color: var(--gg-blue);  }
+.gg-surface-white  { background: var(--gg-white);   color: var(--gg-blue);  }
+.gg-surface-cream  { background: var(--gg-cream);   color: var(--gg-blue);  }
+.gg-surface-pink   { background: var(--gg-pink);    color: var(--gg-white); }
+.gg-surface-orange { background: var(--gg-orange);  color: var(--gg-blue);  }
+.gg-surface-red    { background: var(--gg-red);     color: var(--gg-white); }
+.gg-surface-cyan   { background: var(--gg-light-blue); color: var(--gg-blue); }

@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>GoTrends · Pitch Hackathon</title>
+<link rel="stylesheet" href="gogroup-tokens.css">
+<script src="deck-stage.js"></script>
+<style>
+  :root{
+    /* Kokeshi-inspired palette on dark exec ground */
+    --k-red:#D94B4B;        /* coral red — pulled from logo outline */
+    --k-red-deep:#A83434;
+    --k-pink:#F4A8B8;       /* logo pink */
+    --k-pink-soft:#FBD8DE;
+    --k-cyan:#B7E2DC;       /* logo background cyan */
+    --k-bg:#0D0D0D;
+    --k-bg-2:#161616;
+    --k-bg-3:#1F1F1F;
+    --k-fg:#FFFFFF;
+    --k-fg-2:#AAAAAA;
+    --k-fg-3:#6B6B6B;
+    --k-fg-mute:#888888;
+    --k-green:#2ECC71;
+    --k-alert:#E74C3C;
+    --k-amber:#F8AE13;
+    --k-line:rgba(255,255,255,0.08);
+    --k-line-strong:rgba(255,255,255,0.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#000;font-family:'Poppins',sans-serif;color:var(--k-fg);}
+  deck-stage{ background:#000; }
+
+  section.slide{
+    width:1920px; height:1080px;
+    background:var(--k-bg);
+    color:var(--k-fg);
+    position:relative;
+    overflow:hidden;
+    font-family:'Poppins',sans-serif;
+    padding:80px 96px;
+    display:flex; flex-direction:column;
+  }
+
+  .corner-mark{
+    position:absolute; top:48px; left:96px;
+    display:flex; align-items:center; gap:14px;
+    font-weight:600; font-size:18px;
+    color:var(--k-fg);
+  }
+  .corner-mark .dot{ width:14px; height:14px; border-radius:50%; background:var(--k-red); }
+  .corner-mark .sub{ color:var(--k-fg-3); font-weight:400; margin-left:14px; padding-left:14px; border-left:1px solid var(--k-line); }
+  .pagination{
+    position:absolute; top:48px; right:96px;
+    font-size:14px; letter-spacing:0.18em;
+    color:var(--k-fg-3); text-transform:uppercase; font-weight:500;
+  }
+  .eyebrow{
+    font-size:14px; letter-spacing:0.22em; text-transform:uppercase;
+    font-weight:600; color:var(--k-red);
+  }
+
+  /* ============ 01 CAPA ============ */
+  .capa{
+    align-items:center; justify-content:center;
+    background:
+      radial-gradient(ellipse at 50% 60%, rgba(217,75,75,0.22) 0%, rgba(217,75,75,0) 60%),
+      var(--k-bg);
+  }
+  .capa-logo{
+    width:280px; height:280px; border-radius:50%;
+    background:#000;
+    margin-bottom:40px;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .capa-logo img{ width:100%; height:100%; object-fit:cover; }
+  .capa-name{ font-size:148px; font-weight:700; letter-spacing:-0.03em; line-height:1; margin-bottom:18px; }
+  .capa-name em{ font-style:normal; color:var(--k-red); }
+  .capa-sub{
+    font-size:24px; color:var(--k-fg-2); letter-spacing:0.04em;
+    margin-bottom:22px; font-weight:500; text-transform:uppercase;
+  }
+  .capa-tag{
+    font-size:26px; font-weight:400; color:var(--k-fg-2);
+    text-align:center; max-width:980px;
+  }
+  .capa-tag b{ color:#fff; font-weight:600; }
+  .capa-foot{
+    position:absolute; bottom:64px; left:0; right:0; text-align:center;
+    font-size:14px; letter-spacing:0.32em; text-transform:uppercase;
+    color:var(--k-fg-3); font-weight:500;
+  }
+
+  /* ============ 02 DOR ============ */
+  .pain{ justify-content:center; align-items:flex-start; padding-left:140px; }
+  .pain .eyebrow{ margin-bottom:48px; margin-top:30px; }
+  .pain-num{
+    font-size:380px; font-weight:700; line-height:0.85; letter-spacing:-0.04em;
+    background:linear-gradient(180deg,#fff 0%,#6B6B6B 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    margin-bottom:24px;
+  }
+  .pain-sub{
+    font-size:42px; font-weight:300; line-height:1.25; max-width:1200px; color:#fff;
+    margin-bottom:40px;
+  }
+  .pain-sub b{ font-weight:600; color:#fff; border-bottom:3px solid var(--k-red); }
+  .pain-foot-line{
+    font-size:22px; color:var(--k-fg-2); font-weight:300; max-width:1100px; line-height:1.4;
+  }
+  .pain-foot-line em{ font-style:normal; color:var(--k-red); font-weight:600; }
+  .pain-side{
+    position:absolute; right:140px; bottom:140px; text-align:right;
+    font-size:13px; letter-spacing:0.18em; text-transform:uppercase; color:var(--k-fg-3);
+  }
+
+  /* ============ 03 PROCESSO ============ */
+  .process{ padding:140px 96px 96px; }
+  .process .eyebrow{ display:block; margin-top:30px; margin-bottom:24px; }
+  .process h2{
+    font-size:64px; font-weight:700; letter-spacing:-0.015em; line-height:1.05;
+    margin-bottom:64px; max-width:1500px;
+  }
+  .process h2 em{ font-style:normal; color:var(--k-red); }
+  .flow-2{
+    display:grid; grid-template-columns: 1fr 1fr; gap:32px; margin-bottom:48px;
+  }
+  .flow-col{
+    background:var(--k-bg-2); border:1px solid var(--k-line); border-radius:18px;
+    padding:32px 36px;
+    display:flex; flex-direction:column; gap:18px;
+  }
+  .flow-col.bad{ border-color:rgba(231,76,60,0.3); }
+  .flow-col .h{
+    display:flex; align-items:center; gap:14px;
+    font-size:13px; letter-spacing:0.22em; text-transform:uppercase; color:var(--k-fg-3); font-weight:700;
+  }
+  .flow-col.bad .h{ color:var(--k-alert); }
+  .flow-col .h .tag{ background:rgba(231,76,60,0.15); color:var(--k-alert); padding:5px 12px; border-radius:999px; font-size:11px; }
+  .step-list{ display:flex; flex-direction:column; gap:10px; }
+  .step-list .li{
+    display:flex; align-items:center; gap:16px;
+    font-size:20px; font-weight:500; color:#fff;
+  }
+  .step-list .li .n{
+    width:30px; height:30px; border-radius:50%;
+    background:var(--k-bg-3); border:1px solid var(--k-line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px; color:var(--k-fg-2); font-weight:700;
+    flex-shrink:0;
+  }
+  .step-list .li.fail .n{ background:rgba(231,76,60,0.15); border-color:var(--k-alert); color:var(--k-alert); }
+  .step-list .li.fail span{ color:var(--k-alert); }
+  .gap-row{
+    display:flex; gap:14px; margin-top:8px; padding-top:18px; border-top:1px dashed var(--k-line);
+    font-size:13px; color:var(--k-fg-3);
+  }
+  .gap-row .pill{
+    background:rgba(231,76,60,0.12); border:1px solid rgba(231,76,60,0.35);
+    color:#fff; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:500;
+  }
+
+  .stat-row{
+    display:grid; grid-template-columns: 1fr 1fr 1fr; gap:48px;
+    border-top:1px solid var(--k-line); padding-top:36px;
+  }
+  .stat-row .stat .num{ font-size:72px; font-weight:700; line-height:1; letter-spacing:-0.02em; }
+  .stat-row .stat .num.warn{ color:var(--k-alert); }
+  .stat-row .stat .num.red{ color:var(--k-red); }
+  .stat-row .stat .lbl{ font-size:16px; color:var(--k-fg-2); margin-top:10px; line-height:1.4; }
+  .stat-row .stat .lbl b{ color:#fff; font-weight:600; }
+
+  /* ============ 04 SOLUÇÃO ============ */
+  .solution{ padding:140px 96px 96px; }
+  .solution .eyebrow{ display:block; margin-top:30px; margin-bottom:20px; }
+  .solution .h{ font-size:88px; font-weight:700; letter-spacing:-0.02em; line-height:1.0; margin-bottom:18px; }
+  .solution .h em{ font-style:normal; color:var(--k-red); }
+  .solution .sub{ font-size:22px; color:var(--k-fg-2); font-weight:300; max-width:1200px; margin-bottom:54px; }
+
+  .pipe{
+    display:grid; grid-template-columns:repeat(5, 1fr); gap:0;
+    border-top:1px solid var(--k-line); border-bottom:1px solid var(--k-line);
+    margin-bottom:32px;
+  }
+  .layer{
+    padding:36px 28px; border-right:1px solid var(--k-line);
+    display:flex; flex-direction:column; gap:12px; position:relative;
+  }
+  .layer:last-child{ border-right:0; }
+  .layer .n{ font-size:13px; letter-spacing:0.22em; color:var(--k-red); font-weight:700; }
+  .layer .ic{
+    width:52px; height:52px; border-radius:50%;
+    background:rgba(217,75,75,0.12); border:1px solid rgba(217,75,75,0.4);
+    display:flex; align-items:center; justify-content:center; margin:4px 0 6px;
+  }
+  .layer .ic svg{ width:26px; height:26px; stroke:var(--k-red); fill:none; stroke-width:1.6; }
+  .layer .ttl{ font-size:22px; font-weight:600; line-height:1.15; }
+  .layer .desc{ font-size:14px; color:var(--k-fg-2); line-height:1.45; }
+  .layer .data{
+    margin-top:auto; padding-top:12px; border-top:1px dashed var(--k-line);
+    font-size:13px; color:var(--k-fg-mute); line-height:1.4; font-weight:500;
+  }
+  .layer .data b{ color:#fff; font-weight:600; }
+
+  .out-row{
+    display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px;
+  }
+  .out-card{
+    background:var(--k-bg-2); border:1px solid var(--k-line); border-radius:14px;
+    padding:22px 26px;
+    display:flex; align-items:center; gap:18px;
+  }
+  .out-card .ic{
+    width:42px; height:42px; border-radius:10px; background:rgba(217,75,75,0.12);
+    border:1px solid rgba(217,75,75,0.35); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .out-card .ic svg{ width:22px; height:22px; stroke:var(--k-red); fill:none; stroke-width:1.8; }
+  .out-card .lbl{ font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--k-fg-3); font-weight:700; }
+  .out-card .ttl{ font-size:18px; font-weight:600; color:#fff; line-height:1.3; margin-top:4px; }
+
+  /* ============ 05 STACK / CONSTRUÍDO ============ */
+  .built{ padding:96px 80px 64px; }
+  .built .head-row{ display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:32px; }
+  .built .head-row .left{ max-width:1100px; }
+  .built .eyebrow{ display:block; margin-top:30px; margin-bottom:14px; }
+  .built .h{ font-size:64px; font-weight:700; letter-spacing:-0.015em; line-height:1.0; margin-bottom:8px; }
+  .built .h em{ font-style:normal; color:var(--k-red); }
+  .built .sub{ font-size:18px; color:var(--k-fg-2); font-weight:300; }
+
+  .qr-block{
+    display:flex; align-items:center; gap:18px;
+    background:var(--k-bg-2); border:1px solid var(--k-line); border-radius:18px;
+    padding:14px 18px;
+  }
+  .qr-block img{ width:120px; height:120px; border-radius:10px; background:#fff; padding:6px; }
+  .qr-block .meta .lbl{ font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--k-red); font-weight:700; margin-bottom:6px; }
+  .qr-block .meta .ttl{ font-size:18px; font-weight:600; color:#fff; line-height:1.2; }
+  .qr-block .meta .url{ font-size:13px; color:var(--k-fg-3); margin-top:4px; font-family:'Poppins',monospace; }
+
+  .stack-pipe{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:14px;
+    margin-bottom:24px;
+    position:relative;
+  }
+  .sp-card{
+    background:var(--k-bg-2); border:1px solid var(--k-line); border-radius:16px;
+    padding:26px 22px 24px;
+    display:flex; flex-direction:column; gap:10px;
+    position:relative;
+    min-height:340px;
+  }
+  .sp-card.center{ background:rgba(217,75,75,0.10); border-color:rgba(217,75,75,0.35); }
+  .sp-card.right{ background:rgba(183,226,220,0.06); border-color:rgba(183,226,220,0.25); }
+  .sp-card .step-n{
+    position:absolute; top:-12px; left:18px;
+    background:var(--k-red); color:#fff;
+    width:30px; height:30px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px; font-weight:700;
+  }
+  .sp-card .lbl{ font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--k-fg-3); font-weight:700; margin-top:6px; }
+  .sp-card .ttl{ font-size:21px; font-weight:700; line-height:1.18; color:#fff; }
+  .sp-card .ttl .accent{ color:var(--k-red); }
+  .sp-card .desc{ font-size:14px; color:var(--k-fg-2); line-height:1.5; }
+  .sp-card .tech{
+    margin-top:auto; padding-top:14px; border-top:1px dashed var(--k-line);
+    display:flex; flex-wrap:wrap; gap:6px;
+  }
+  .sp-card .tech .t{
+    font-size:11.5px; font-weight:600; letter-spacing:0.04em;
+    background:var(--k-bg-3); color:var(--k-fg-2);
+    padding:5px 10px; border-radius:999px; border:1px solid var(--k-line);
+  }
+  .sp-card .tech .t.hot{ background:rgba(217,75,75,0.15); border-color:rgba(217,75,75,0.4); color:#fff; }
+
+  .stack-arrow{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:18px; height:18px;
+    color:var(--k-fg-3); display:flex; align-items:center; justify-content:center;
+    font-size:18px; pointer-events:none; z-index:2;
+  }
+
+  .transversal{
+    display:flex; align-items:center; gap:16px;
+    padding:14px 22px;
+    border:1px dashed rgba(217,75,75,0.4); border-radius:14px;
+    background:rgba(217,75,75,0.04);
+    margin-bottom:18px;
+  }
+  .transversal .pill{
+    background:var(--k-red); color:#fff;
+    font-size:11px; letter-spacing:0.18em; text-transform:uppercase; padding:6px 12px; border-radius:999px; font-weight:700;
+    flex-shrink:0;
+  }
+  .transversal .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .transversal .chips span{
+    font-size:13px; color:var(--k-fg-2); padding:5px 11px;
+    background:var(--k-bg-2); border:1px solid var(--k-line); border-radius:999px;
+  }
+
+  .tech-foot{
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    padding-top:14px; border-top:1px solid var(--k-line);
+    font-size:12px; color:var(--k-fg-3);
+  }
+  .tech-foot .lbl{ font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--k-fg-3); font-weight:700; margin-right:6px; }
+  .tech-foot .t{
+    font-size:13px; color:#fff; font-weight:500;
+    padding:6px 14px; background:var(--k-bg-2); border:1px solid var(--k-line); border-radius:999px;
+  }
+
+  /* ============ 06 PREVENTIVO ============ */
+  .preventive{
+    padding:120px 96px;
+    background:linear-gradient(180deg,#0D0D0D 0%,#1A0808 100%);
+  }
+  .preventive .eyebrow{ display:block; margin-top:30px; margin-bottom:24px; }
+  .preventive .h{ font-size:120px; font-weight:700; letter-spacing:-0.02em; line-height:0.95; margin-bottom:24px; }
+  .preventive .h em{ font-style:normal; color:var(--k-red); }
+  .preventive .sub{ font-size:24px; color:var(--k-fg-2); font-weight:300; margin-bottom:64px; max-width:1100px; line-height:1.4; }
+  .demo{ display:grid; grid-template-columns: 1.4fr 1fr; gap:48px; align-items:stretch; }
+  .launch-card{
+    background:#1A1A1A; border:1px solid var(--k-line); border-radius:24px; padding:40px;
+    position:relative; overflow:hidden;
+  }
+  .launch-card::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:6px; background:var(--k-red); }
+  .launch-card .row1{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .launch-card .badge{
+    background:var(--k-red); color:#fff; font-weight:700; font-size:13px;
+    letter-spacing:0.18em; text-transform:uppercase; padding:8px 16px; border-radius:999px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .launch-card .badge .pulse{ width:8px; height:8px; border-radius:50%; background:#fff; animation:pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1; transform:scale(1)} 50%{opacity:.4; transform:scale(1.4)} }
+  .launch-card .product{ font-size:42px; font-weight:700; line-height:1.05; margin-top:12px; margin-bottom:8px; }
+  .launch-card .date{ font-size:18px; color:var(--k-fg-2); margin-bottom:32px; }
+  .launch-card .countdown{
+    display:flex; align-items:baseline; gap:16px;
+    padding:24px 0; border-top:1px solid var(--k-line); border-bottom:1px solid var(--k-line);
+    margin-bottom:24px;
+  }
+  .launch-card .countdown .big{ font-size:120px; font-weight:700; color:var(--k-red); line-height:1; letter-spacing:-0.03em; }
+  .launch-card .countdown .lbl{ font-size:18px; color:var(--k-fg-2); }
+  .launch-card .kw-h{ font-size:13px; letter-spacing:0.22em; text-transform:uppercase; color:var(--k-fg-3); font-weight:600; margin-bottom:14px; }
+  .kw-list{ display:flex; flex-wrap:wrap; gap:8px; }
+  .kw-list .kw{
+    background:rgba(217,75,75,0.12); border:1px solid rgba(217,75,75,0.4);
+    color:#fff; padding:8px 14px; border-radius:999px; font-size:14px; font-weight:500;
+  }
+  .vs{ display:flex; flex-direction:column; gap:24px; }
+  .vs-box{ background:#1A1A1A; border:1px solid var(--k-line); border-radius:20px; padding:32px; }
+  .vs-box .lbl{ font-size:12px; letter-spacing:0.22em; text-transform:uppercase; font-weight:700; }
+  .vs-box.bad .lbl{ color:var(--k-fg-3); }
+  .vs-box.good .lbl{ color:var(--k-green); }
+  .vs-box .t{ font-size:24px; font-weight:600; line-height:1.3; margin-top:10px; }
+  .vs-box.bad .t{ color:var(--k-fg-2); }
+  .vs-box.good{ background:rgba(46,204,113,0.07); border-color:rgba(46,204,113,0.4); }
+  .vs-arrow{ text-align:center; color:var(--k-fg-3); font-size:18px; letter-spacing:0.18em; text-transform:uppercase; }
+
+  /* ============ 07 PROVA ============ */
+  .proof{ padding:96px; }
+  .proof .eyebrow{ display:block; margin-top:30px; margin-bottom:20px; }
+  .proof .h{ font-size:64px; font-weight:700; letter-spacing:-0.015em; margin-bottom:40px; }
+  .proof .h em{ font-style:normal; color:var(--k-red); }
+  .proof-grid{
+    display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr;
+    border-top:1px solid var(--k-line); border-left:1px solid var(--k-line);
+    flex:1;
+  }
+  .stat-cell{
+    border-right:1px solid var(--k-line); border-bottom:1px solid var(--k-line);
+    padding:50px 56px;
+    display:flex; flex-direction:column; justify-content:space-between; position:relative;
+  }
+  .stat-cell .top{ display:flex; justify-content:space-between; align-items:flex-start; }
+  .stat-cell .ic{ width:40px; height:40px; border-radius:50%; background:rgba(217,75,75,0.15); display:flex; align-items:center; justify-content:center; }
+  .stat-cell .ic svg{ width:20px; height:20px; stroke:var(--k-red); fill:none; stroke-width:2; }
+  .stat-cell .num{ font-size:130px; font-weight:700; line-height:1; letter-spacing:-0.03em; margin-bottom:16px; }
+  .stat-cell .num small{ font-size:58px; font-weight:600; }
+  .stat-cell .lbl{ font-size:17px; color:var(--k-fg-2); line-height:1.35; max-width:440px; }
+  .stat-cell .lbl b{ color:#fff; font-weight:600; }
+  .stat-cell .tag{ font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--k-red); font-weight:700; }
+  .proof-foot{
+    margin-top:20px; padding:16px 26px;
+    border:1px solid var(--k-line);
+    border-radius:14px;
+    display:flex; align-items:center; gap:18px;
+    background:rgba(217,75,75,0.06);
+  }
+  .proof-foot .live{ width:10px; height:10px; border-radius:50%; background:var(--k-green); animation:pulse 1.6s ease-in-out infinite; }
+  .proof-foot .t{ font-size:16px; color:#fff; letter-spacing:0.04em; }
+  .proof-foot .t b{ color:var(--k-red); font-weight:700; text-transform:uppercase; letter-spacing:0.18em; font-size:13px; margin-right:14px; padding-right:14px; border-right:1px solid var(--k-line); }
+
+  /* ============ 08 ESCALA (merged) ============ */
+  .scale{ padding:120px 96px; }
+  .scale .eyebrow{ display:block; margin-top:30px; margin-bottom:20px; }
+  .scale .h{ font-size:96px; font-weight:700; letter-spacing:-0.02em; line-height:1.0; margin-bottom:18px; }
+  .scale .h em{ font-style:normal; color:var(--k-red); }
+  .scale .sub{ font-size:22px; color:var(--k-fg-2); font-weight:300; max-width:1200px; margin-bottom:64px; }
+
+  .brands-wrap{
+    display:flex; flex-direction:column; gap:36px;
+  }
+  .brands-strip{ display:flex; align-items:flex-start; gap:24px; flex-wrap:wrap; }
+  .brand-card{
+    width:148px; height:148px; border-radius:24px;
+    background:var(--k-bg-2); border:1px solid var(--k-line);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:8px; position:relative;
+    color:var(--k-fg-3);
+  }
+  .brand-card .glyph{
+    font-size:36px; line-height:1; opacity:0.65; font-weight:600;
+  }
+  .brand-card .nm{ font-size:14px; font-weight:600; letter-spacing:0.02em; }
+  .brand-card .pill{
+    position:absolute; top:-10px; right:-8px;
+    font-size:9px; letter-spacing:0.18em; text-transform:uppercase; font-weight:700;
+    background:var(--k-bg-3); border:1px solid var(--k-line);
+    color:var(--k-fg-3);
+    padding:5px 9px; border-radius:999px;
+  }
+  .brand-card.active{
+    background:linear-gradient(180deg,rgba(217,75,75,0.18),rgba(217,75,75,0.06));
+    border-color:var(--k-red); color:#fff;
+  }
+  .brand-card.active .glyph{ opacity:1; color:var(--k-red); }
+  .brand-card.active .pill{ background:var(--k-red); border-color:var(--k-red); color:#fff; }
+  .brand-card.gocase{
+    width:200px;
+    background:var(--k-bg-2);
+    border-style:dashed;
+  }
+  .brand-card.gocase .glyph{ font-size:24px; font-weight:700; letter-spacing:0.02em; }
+
+  .scale-bottom{
+    margin-top:40px; padding-top:36px;
+    border-top:1px solid var(--k-line);
+    display:grid; grid-template-columns: 1.1fr 1fr; gap:64px;
+    align-items:center;
+  }
+  .scale-bottom .left .h2{
+    font-size:42px; font-weight:700; line-height:1.1; max-width:640px; margin-bottom:18px;
+  }
+  .scale-bottom .left .h2 em{ font-style:normal; color:var(--k-red); }
+  .scale-bottom .left .p{
+    font-size:17px; color:var(--k-fg-2); line-height:1.55; max-width:580px;
+  }
+  .recipe{
+    display:flex; gap:0; align-items:stretch;
+    background:var(--k-bg-2); border:1px solid var(--k-line); border-radius:18px;
+    overflow:hidden;
+  }
+  .recipe .ing{
+    flex:1; padding:24px 22px;
+    display:flex; flex-direction:column; gap:6px;
+    border-right:1px solid var(--k-line);
+  }
+  .recipe .ing:last-child{ border-right:0; }
+  .recipe .ing .lbl{ font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--k-fg-3); font-weight:700; }
+  .recipe .ing .v{ font-size:18px; font-weight:600; color:#fff; line-height:1.2; }
+  .recipe .ing .v.red{ color:var(--k-red); }
+
+  /* ============ 09 FECHAMENTO ============ */
+  .closer{
+    align-items:flex-start; justify-content:center;
+    padding:0 160px;
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(217,75,75,0.18) 0%, transparent 50%),
+      var(--k-bg);
+  }
+  .closer .line{
+    font-size:120px; font-weight:700; line-height:1.0; letter-spacing:-0.025em;
+    max-width:1600px;
+  }
+  .closer .line em{ font-style:normal; color:var(--k-red); }
+  .closer .small{
+    margin-top:48px; font-size:18px; letter-spacing:0.32em; text-transform:uppercase;
+    color:var(--k-fg-3); font-weight:500; display:flex; align-items:center; gap:14px;
+  }
+  .closer .small .dot{ width:12px; height:12px; border-radius:50%; background:var(--k-red); }
+  .closer-mark{
+    position:absolute; bottom:64px; right:96px;
+    display:flex; align-items:center; gap:14px;
+    font-size:14px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--k-fg-3); font-weight:600;
+  }
+  .closer-mark img{ width:48px; height:48px; border-radius:50%; }
+</style>
+</head>
+<body>
+
+<deck-stage>
+
+<!-- ===== 01 CAPA ===== -->
+<section class="slide capa" data-screen-label="01 Capa">
+  <div class="capa-logo"><img src="assets/gotrends-logo.png" alt="GoTrends"></div>
+  <div class="capa-name">Go<em>Trends</em></div>
+  <div class="capa-sub">Agente de IA para Google Ads</div>
+  <div class="capa-tag">O copiloto de mídia que <b>conhece o seu negócio</b>.</div>
+  <div class="capa-foot">Hackathon Gogroup · Piloto · Kokeshi / Gobeaute · 2026</div>
+</section>
+
+<!-- ===== 02 DOR ===== -->
+<section class="slide pain" data-screen-label="02 A dor">
+  <div class="corner-mark"><span class="dot"></span><span>GoTrends</span><span class="sub">A dor</span></div>
+  <div class="pagination">02 / 09</div>
+  <div class="eyebrow">Todo mês, na sua conta</div>
+  <div class="pain-num">137.242</div>
+  <div class="pain-sub">termos de busca. <b>Todo mês.</b></div>
+  <div class="pain-foot-line">A análise existia. A <em>inteligência de negócio</em> dentro dela, não.</div>
+  <div class="pain-side">143.747 pontos de dado · 110 campanhas · 6.505 termos cruzados pago × orgânico</div>
+</section>
+
+<!-- ===== 03 PROCESSO ATUAL ===== -->
+<section class="slide process" data-screen-label="03 Processo atual">
+  <div class="corner-mark"><span class="dot"></span><span>GoTrends</span><span class="sub">Como é hoje</span></div>
+  <div class="pagination">03 / 09</div>
+  <div class="eyebrow">O processo atual</div>
+  <h2>A decisão custa <em>4 horas</em> e ainda assim chega tarde.</h2>
+
+  <div class="flow-2">
+    <div class="flow-col bad">
+      <div class="h">Hoje · processo manual <span class="tag">Reativo</span></div>
+      <div class="step-list">
+        <div class="li"><span class="n">01</span><span>Exporta CSV do Google Ads</span></div>
+        <div class="li"><span class="n">02</span><span>Cria tabela dinâmica no Excel</span></div>
+        <div class="li"><span class="n">03</span><span>Debate no Slack o que fazer</span></div>
+        <div class="li fail"><span class="n">04</span><span>Talvez alguém execute na sexta</span></div>
+      </div>
+      <div class="gap-row">
+        <span class="pill">Sem intenção de busca</span>
+        <span class="pill">Sem orgânico cruzado</span>
+        <span class="pill">Sem lançamentos</span>
+      </div>
+    </div>
+    <div class="flow-col">
+      <div class="h">O que sai dessa fila</div>
+      <div class="step-list">
+        <div class="li"><span class="n">→</span><span>Decisão chega <b style="color:var(--k-alert)">depois</b> que o dinheiro saiu</span></div>
+        <div class="li"><span class="n">→</span><span>Conhecimento mora na cabeça de uma pessoa</span></div>
+        <div class="li"><span class="n">→</span><span>Lançamento sobe na sexta — keyword nasce na segunda</span></div>
+        <div class="li"><span class="n">→</span><span>Mesmo erro repete na semana seguinte</span></div>
+      </div>
+      <div class="gap-row" style="border-top-color:rgba(217,75,75,0.3);">
+        <span style="color:var(--k-fg-2); font-style:italic;">Tudo isso roda em 7 marcas — em paralelo, em silos.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="num warn">2&nbsp;–&nbsp;4h</div>
+      <div class="lbl">de trabalho manual <b>toda semana</b>, por marca.</div>
+    </div>
+    <div class="stat">
+      <div class="num warn">R$&nbsp;12.109</div>
+      <div class="lbl"><b>termos eficientes subinvestidos + desperdício</b> identificados na Kokeshi · últimos 30 dias.</div>
+    </div>
+    <div class="stat">
+      <div class="num red">×&nbsp;7</div>
+      <div class="lbl">marcas Gobeaute. <b>O mesmo problema, multiplicado.</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 04 SOLUÇÃO ===== -->
+<section class="slide solution" data-screen-label="04 A solução">
+  <div class="corner-mark"><span class="dot"></span><span>GoTrends</span><span class="sub">A solução</span></div>
+  <div class="pagination">04 / 09</div>
+  <div class="eyebrow">Apresentando · GoTrends</div>
+  <div class="h">Não é dashboard. <em>É decisão.</em></div>
+  <div class="sub">Cinco camadas que transformam termo de busca em ação priorizada com impacto em R$ — e o porquê escrito do lado.</div>
+
+  <div class="pipe">
+    <div class="layer">
+      <span class="n">01</span>
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h12"/></svg></div>
+      <div class="ttl">Contexto</div>
+      <div class="desc">Ticket, LTV e metas de CPA injetados no agente.</div>
+      <div class="data"><b>R$ 90</b> ticket · CPA alvo <b>&lt; R$ 20</b></div>
+    </div>
+    <div class="layer">
+      <span class="n">02</span>
+      <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01M8 15c1.5 1 3 1 4 1s2.5 0 4-1"/></svg></div>
+      <div class="ttl">Intenção</div>
+      <div class="desc">Cada termo classificado em 6 perfis de comportamento.</div>
+      <div class="data">Comprador · Pesquisador · Caçador de brinde · Concorrente · Comparador · Ambíguo</div>
+    </div>
+    <div class="layer">
+      <span class="n">03</span>
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg></div>
+      <div class="ttl">Impacto R$</div>
+      <div class="desc">Receita estimada e delta de oportunidade calculados.</div>
+      <div class="data">Cada ação mostra <b>quanto está sendo perdido</b> vs. potencial.</div>
+    </div>
+    <div class="layer">
+      <span class="n">04</span>
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 6h12M4 12h16M4 18h8"/><circle cx="20" cy="6" r="2"/><circle cx="12" cy="18" r="2"/></svg></div>
+      <div class="ttl">Decisão</div>
+      <div class="desc">12 regras de negócio geram 50+ ações priorizadas.</div>
+      <div class="data">Cada ação vem com <b>razão explicada</b> e nível de risco — zero caixa-preta.</div>
+    </div>
+    <div class="layer">
+      <span class="n">05</span>
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h6M15 12h6"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <div class="ttl">Pago × Orgânico</div>
+      <div class="desc">Cruza Search Console e Ads para evitar canibalização.</div>
+      <div class="data"><b>6.361 termos</b> cruzados entre os dois canais.</div>
+    </div>
+  </div>
+
+  <div class="out-row">
+    <div class="out-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h18M12 3l9 9-9 9"/></svg></div>
+      <div><div class="lbl">Entrada</div><div class="ttl">Termo de busca bruto</div></div>
+    </div>
+    <div class="out-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg></div>
+      <div><div class="lbl">Pipeline</div><div class="ttl">5 camadas de análise</div></div>
+    </div>
+    <div class="out-card" style="background:rgba(217,75,75,0.10); border-color:rgba(217,75,75,0.4);">
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M12 2l9 4v6c0 5-4 9-9 10-5-1-9-5-9-10V6z"/></svg></div>
+      <div><div class="lbl" style="color:var(--k-red)">Saída</div><div class="ttl">Ação priorizada · R$ · porquê</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 05 STACK / O QUE FOI CONSTRUÍDO ===== -->
+<section class="slide built" data-screen-label="05 Stack">
+  <div class="corner-mark"><span class="dot"></span><span>GoTrends</span><span class="sub">O que foi construído</span></div>
+  <div class="pagination">05 / 09</div>
+
+  <div class="head-row">
+    <div class="left">
+      <div class="eyebrow">Fluxo do pipeline · GoTrends</div>
+      <div class="h">Construído do zero. <em>Rodando em produção.</em></div>
+      <div class="sub">Cinco etapas. Tecnologias estado-da-arte. Segurança transversal. <b style="color:#fff">Aponte a câmera no QR — está no ar agora.</b></div>
+      <div style="margin-top:18px; display:flex; gap:36px; align-items:center;">
+        <div style="display:flex; align-items:baseline; gap:10px;"><span style="font-size:28px; font-weight:700; color:var(--k-red);">137.242</span><span style="font-size:13px; color:var(--k-fg-3); letter-spacing:0.18em; text-transform:uppercase;">termos processados</span></div>
+        <div style="display:flex; align-items:baseline; gap:10px;"><span style="font-size:28px; font-weight:700; color:var(--k-red);">&lt; 3s</span><span style="font-size:13px; color:var(--k-fg-3); letter-spacing:0.18em; text-transform:uppercase;">por análise</span></div>
+        <div style="display:flex; align-items:baseline; gap:10px;"><span style="font-size:28px; font-weight:700; color:var(--k-red);">9</span><span style="font-size:13px; color:var(--k-fg-3); letter-spacing:0.18em; text-transform:uppercase;">novas keywords descobertas / mês</span></div>
+      </div>
+    </div>
+    <div class="qr-block">
+      <img src="assets/qr-streamlit.png" alt="QR para o Streamlit">
+      <div class="meta">
+        <div class="lbl">Scan me · ao vivo</div>
+        <div class="ttl">Dashboard GoTrends</div>
+        <div class="url">streamlit · acesso por OAuth</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stack-pipe">
+    <div class="sp-card">
+      <span class="step-n">1</span>
+      <span class="lbl">Fontes de dados</span>
+      <div class="ttl">Coleta <span class="accent">bruta</span></div>
+      <div class="desc">Campanhas, search terms, métricas, posições e cliques — pago e orgânico, em paralelo.</div>
+      <div class="tech">
+        <span class="t hot">Google Ads API</span>
+        <span class="t hot">Search Console API</span>
+      </div>
+    </div>
+    <div class="sp-card">
+      <span class="step-n">2</span>
+      <span class="lbl">MCP Server</span>
+      <div class="ttl">Conexão <span class="accent">segura</span></div>
+      <div class="desc">Padroniza dados, recupera sob demanda, estrutura contexto para a IA. Estado da arte em integração.</div>
+      <div class="tech">
+        <span class="t hot">Model Context Protocol</span>
+        <span class="t">OAuth 2.0</span>
+      </div>
+    </div>
+    <div class="sp-card center">
+      <span class="step-n">3</span>
+      <span class="lbl">Agente GoTrends</span>
+      <div class="ttl">12 frameworks <span class="accent">de decisão</span></div>
+      <div class="desc">Taxonomia de intenção, modelo financeiro, regras por tipo de campanha, política de risco, padrões de insight. Tudo injetado como contexto.</div>
+      <div class="tech">
+        <span class="t hot">Claude · Anthropic</span>
+        <span class="t">Frameworks autorais</span>
+      </div>
+    </div>
+    <div class="sp-card">
+      <span class="step-n">4</span>
+      <span class="lbl">Engine de análise</span>
+      <div class="ttl">Pipeline <span class="accent">5×</span></div>
+      <div class="desc">Coleta → enriquecimento → classificação de intenção → análise financeira → geração de insights e recomendações.</div>
+      <div class="tech">
+        <span class="t">Python</span>
+        <span class="t">Pandas</span>
+        <span class="t">Plotly</span>
+      </div>
+    </div>
+    <div class="sp-card right">
+      <span class="step-n">5</span>
+      <span class="lbl">Dashboard Streamlit</span>
+      <div class="ttl">Interface <span class="accent">em tempo real</span></div>
+      <div class="desc">6 módulos · visão geral · ações recomendadas · chat com o agente · deploy em cloud com acesso por OAuth.</div>
+      <div class="tech">
+        <span class="t hot">Streamlit Cloud</span>
+        <span class="t">Web App</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="transversal">
+    <span class="pill">Transversal</span>
+    <span style="font-size:14px; color:#fff; font-weight:600; margin-right:6px;">Autenticação &amp; Segurança</span>
+    <div class="chips">
+      <span>OAuth 2.0 (Google)</span>
+      <span>Acesso por domínio · @gocase.com / @gobeaute.com</span>
+      <span>Logs &amp; auditoria</span>
+      <span>Dados não persistidos</span>
+      <span>LGPD compliant</span>
+      <span style="color:#fff; background:rgba(46,204,113,0.10); border-color:rgba(46,204,113,0.4);">Zero execuções automáticas</span>
+    </div>
+  </div>
+
+  <div class="tech-foot">
+    <span class="lbl">Stack</span>
+    <span class="t">Google Ads API</span>
+    <span class="t">Search Console API</span>
+    <span class="t">MCP</span>
+    <span class="t">Claude (Anthropic)</span>
+    <span class="t">Streamlit</span>
+    <span class="t">Python</span>
+    <span class="t">Pandas</span>
+    <span class="t">Plotly</span>
+    <span class="t">OAuth 2.0</span>
+  </div>
+</section>
+
+<!-- ===== 06 PREVENTIVO ===== -->
+<section class="slide preventive" data-screen-label="06 Preventivo">
+  <div class="corner-mark"><span class="dot"></span><span>GoTrends</span><span class="sub">O diferencial</span></div>
+  <div class="pagination">06 / 09</div>
+  <div class="eyebrow">O que ninguém mais faz</div>
+  <div class="h">Antes de gastar. <em>Não depois.</em></div>
+  <div class="sub">As ferramentas atuais avisam quando o dinheiro já foi embora. GoTrends prepara a ação 45 dias antes.</div>
+
+  <div class="demo">
+    <div class="launch-card">
+      <div class="row1">
+        <div class="kw-h" style="margin:0">Próximo lançamento · Kokeshi</div>
+        <div class="badge"><span class="pulse"></span>Urgente</div>
+      </div>
+      <div class="product">Sérum Roll-on Adeus Olheiras</div>
+      <div class="date">Lançamento · 30 de abril de 2026</div>
+      <div class="countdown">
+        <div class="big" style="font-size:72px;">30 abr</div>
+        <div class="lbl">campanha sugerida pronta para revisão<br>· keywords pré-montadas, aguardando aprovação</div>
+      </div>
+      <div class="kw-h">6 keywords pré-montadas</div>
+      <div class="kw-list">
+        <span class="kw">comprar adeus olheiras</span>
+        <span class="kw">sérum olheiras kokeshi</span>
+        <span class="kw">roll on para olheiras</span>
+        <span class="kw">tratamento olheiras profundas</span>
+        <span class="kw">kokeshi sérum olhos</span>
+        <span class="kw">adeus olheiras como usar</span>
+      </div>
+    </div>
+    <div class="vs">
+      <div class="vs-box bad">
+        <div class="lbl">Concorrentes</div>
+        <div class="t">“Seu CPA aumentou 40% na semana passada.”</div>
+      </div>
+      <div class="vs-arrow">↓ a diferença</div>
+      <div class="vs-box good">
+        <div class="lbl">GoTrends</div>
+        <div class="t">“Faltam 5 dias. Estas 6 keywords precisam estar no ar segunda-feira.”</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 07 PROVA ===== -->
+<section class="slide proof" data-screen-label="07 A prova">
+  <div class="corner-mark"><span class="dot"></span><span>GoTrends</span><span class="sub">A prova</span></div>
+  <div class="pagination">07 / 09</div>
+  <div class="eyebrow">Não é ideia. Já está rodando.</div>
+  <div class="h">Em uma conta real. <em>Este mês.</em></div>
+
+  <div class="proof-grid">
+    <div class="stat-cell">
+      <div class="top">
+        <div class="tag">Volume</div>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div>
+      </div>
+      <div>
+        <div class="num">137.242</div>
+        <div class="lbl"><b>termos de busca</b> analisados e classificados em intenção, nos últimos 30 dias.</div>
+      </div>
+    </div>
+    <div class="stat-cell">
+      <div class="top">
+        <div class="tag">Oportunidade</div>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4 12H2M22 12h-2M19 5l-1.5 1.5M6.5 17.5 5 19M19 19l-1.5-1.5M6.5 6.5 5 5"/><circle cx="12" cy="12" r="4"/></svg></div>
+      </div>
+      <div>
+        <div class="num">R$&nbsp;12.109</div>
+        <div class="lbl"><b>em termos eficientes subinvestidos + desperdício</b>, identificados neste mês.</div>
+      </div>
+    </div>
+    <div class="stat-cell">
+      <div class="top">
+        <div class="tag">Eficiência · Search Branded</div>
+        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+      </div>
+      <div>
+        <div class="num">21,7<small>×</small></div>
+        <div class="lbl"><b>ROAS na campanha branded</b> — identificado e protegido como carro-chefe.</div>
+      </div>
+    </div>
+    <div class="stat-cell">
+      <div class="top">
+        <div class="tag">Velocidade</div>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
+      </div>
+      <div>
+        <div class="num">&lt;&nbsp;3<small>s</small></div>
+        <div class="lbl"><b>para abrir a análise completa.</b> A reunião de mídia de segunda começa agora.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proof-foot">
+    <span class="live"></span>
+    <span class="t"><b>Em produção</b> Últimos 30 dias · conta real Kokeshi / Gobeaute · <span style="color:var(--k-red); font-weight:700;">R$ 104.481</span> de investimento gerenciado no período</span>
+  </div>
+</section>
+
+<!-- ===== 08 ESCALA (merged) ===== -->
+<section class="slide scale" data-screen-label="08 Escala">
+  <div class="corner-mark"><span class="dot"></span><span>GoTrends</span><span class="sub">A escala</span></div>
+  <div class="pagination">08 / 09</div>
+  <div class="eyebrow">A Kokeshi é só o começo</div>
+  <div class="h">Uma marca hoje. <em>Oito amanhã.</em></div>
+  <div class="sub">A arquitetura do GoTrends é por contexto de negócio. Trocar de marca é trocar um arquivo — não reconstruir o sistema.</div>
+
+  <div class="brands-wrap">
+    <div>
+      <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--k-fg-3); font-weight:700; margin-bottom:18px;">Gobeaute · 7 marcas</div>
+      <div class="brands-strip">
+        <div class="brand-card active">
+          <span class="glyph">K</span><span class="nm">Kokeshi</span>
+          <span class="pill">Ativo</span>
+        </div>
+        <div class="brand-card"><span class="glyph">L</span><span class="nm">Lescent</span><span class="pill">Próxima</span></div>
+        <div class="brand-card"><span class="glyph">Á</span><span class="nm">Ápice</span><span class="pill">Próxima</span></div>
+        <div class="brand-card"><span class="glyph">B</span><span class="nm">Barbour's</span><span class="pill">Próxima</span></div>
+        <div class="brand-card"><span class="glyph">R</span><span class="nm">Rituária</span><span class="pill">Próxima</span></div>
+        <div class="brand-card"><span class="glyph">S</span><span class="nm">By Samia</span><span class="pill">Próxima</span></div>
+        <div class="brand-card"><span class="glyph">A</span><span class="nm">Auá</span><span class="pill">Próxima</span></div>
+        <div class="brand-card gocase"><span class="glyph">gocase</span><span class="nm">+ outro vertical</span><span class="pill">Compatível</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scale-bottom">
+    <div class="left">
+      <div class="h2">Mesma infraestrutura. <em>Novo cliente interno.</em></div>
+      <div class="p">Cada marca tem o seu ticket, o seu calendário e o seu vocabulário. O agente do GoTrends carrega esse contexto e o motor de decisão se mantém. Sem reescrever pipeline. Sem refazer integração.</div>
+    </div>
+    <div class="recipe">
+      <div class="ing"><div class="lbl">Troca</div><div class="v red">Arquivo de contexto</div></div>
+      <div class="ing"><div class="lbl">Mantém</div><div class="v">Pipeline · agente · stack</div></div>
+      <div class="ing"><div class="lbl">Resultado</div><div class="v">Nova marca operando</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 09 FECHAMENTO ===== -->
+<section class="slide closer" data-screen-label="09 Fechamento">
+  <div class="pagination">09 / 09</div>
+  <div class="line">O analista continua aqui.<br>Agora com o <em>contexto do negócio inteiro</em> na mesa.</div>
+  <div class="small"><span class="dot"></span>GoTrends · piloto Kokeshi · Gobeaute · 2026</div>
+  <div class="closer-mark"><img src="assets/gotrends-logo.png" alt=""><span>GoTrends</span></div>
+</section>
+
+</deck-stage>
+
+<script type="application/json" id="speaker-notes">
+[
+  "Capa. Pausa de 2 segundos. 'GoTrends — agente de IA para Google Ads. O piloto está rodando dentro da conta da Kokeshi.'",
+  "Hook. 'Todo mês a nossa conta de Google Ads recebe cento e trinta e sete mil termos de busca.' Pausa. 'A análise existia. A inteligência de negócio dentro dela, não.'",
+  "Processo atual. À esquerda o que se faz hoje, à direita o que sai dessa fila. Quatro horas por semana. Doze mil reais por mês de termos eficientes subinvestidos e desperdício, só na Kokeshi. Vezes sete marcas.",
+  "Solução. 'Não é dashboard. É decisão.' Cinco camadas — contexto, intenção, impacto, decisão, cruzamento orgânico. No rodapé: entra termo bruto, sai ação priorizada com impacto em reais e o porquê escrito do lado.",
+  "Stack. Slide-prova de produto. Aponte: Google Ads e Search Console entram pelo MCP Server, viram contexto pra Claude com 12 frameworks, processam num pipeline de cinco etapas, e saem no Streamlit em tempo real. Aponte o QR: 'pode escanear agora — está no ar.' Segurança e OAuth são transversais. Zero execução automática.",
+  "Diferencial. Slide-âncora. 'Antes de gastar. Não depois.' Lançamento marcado para 30 de abril, seis keywords prontas. Concorrente avisa o passado, GoTrends prepara o futuro.",
+  "Prova. Quatro números. Cento e trinta e sete mil termos. Doze mil reais em oportunidade. ROAS de vinte e um vírgula sete na branded. Menos de três segundos pra carregar. Cento e quatro mil reais de investimento gerenciado no mês — essa é a escala da conta.",
+  "Escala. A Kokeshi é uma de sete. Trocar de marca é trocar um arquivo de contexto. Mesmo agente, mesma stack, mesmo pipeline.",
+  "Fechamento. 'O analista continua aqui. Agora com o contexto do negócio inteiro na mesa.' Pausa. 'Obrigado.'"
+]
+</script>
+
+</body>
+</html>
